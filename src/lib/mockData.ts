@@ -1,6 +1,5 @@
-import { supabase } from './supabaseClient'; // For future real API; use mocks now
+import { supabase } from './supabaseClient';
 
-// Mock data; replace queryFn with async () => { const { data } = await supabase.from('ideas').select(); return data || []; }
 export const getIdeas = async () => [
   { id: 1, title: 'AI-Powered Recipe App', description: 'Generate recipes from fridge items.', upvotes: 42 },
   { id: 2, title: 'Virtual Fitness Coach', description: 'Personalized workouts via AR.', upvotes: 28 },
