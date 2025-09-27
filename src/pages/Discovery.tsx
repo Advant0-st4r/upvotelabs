@@ -1,49 +1,58 @@
-import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Upvote, Share } from 'lucide-react';
+import { Upvote, Eye } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { getIdeaById } from '@/lib/mockData';
+import { getIdeas } from '@/lib/mockData';
 
-export const IdeaDetail = () => {
-  const { id } = useParams<{ id: string }>();
-  const { data: idea, isLoading, isError } = useQuery({
-    queryKey: ['idea', id],
-    queryFn: () => getIdeaById(Number(id)),
+export const Discovery = () => {
+  const { data: ideas = [], isLoading, isError } = useQuery({
+    queryKey: ['ideas'],
+    queryFn: getIdeas,
   });
 
   if (isLoading) {
-    return <div className="container mx-auto p-4">Loading idea...</div>;
+    return <div className="container mx-auto p-4">Loading ideas...</div>;
   }
 
-  if (isError || !idea) {
-    return <div className="container mx-auto p-4">Error loading idea</div>;
+  if (isError) {
+    return <div className="container mx-auto p-4">Error loading ideas</div>;
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="container mx-auto p-4 max-w-2xl"
-    >
-      <Card>
-        <CardHeader>
-          <CardTitle>{idea.title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="mb-4">{idea.description}</p>
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center gap-2">
-              <Upvote className="h-5 w-5" />
-              <span>{idea.upvotes}</span>
-            </div>
-            <Button variant="outline" size="sm">
-              <Share className="h-4 w-4 mr-2" /> Share
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    </motion.div>
+    <div className="container mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-6">Discover Ideas</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {ideas.map((idea: any) => (
+          <motion.div
+            key={idea.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Card>
+              <CardHeader>
+                <CardTitle>{idea.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="mb-4">{idea.description}</p>
+                <div className="flex justify-between items-center">
+                  <Button variant="outline" size="sm" asChild>
+                    <Link to={`/idea/${idea.id}`}>
+                      <Eye className="h-4 w-4 mr-2" /> View
+                    </Link>
+                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Upvote className="h-4 w-4" />
+                    <span>{idea.upvotes}</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </div>
+    </div>
   );
 };
