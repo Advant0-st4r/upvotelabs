@@ -4,16 +4,20 @@ import { Button } from '@/components/ui/button';
 import { Upvote, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { getIdeas } from '@/lib/mockData'; // Mock API; replace with supabase.from('ideas').select() later
+import { getIdeas } from '@/lib/mockData';
 
 export const Discovery = () => {
-  const { data: ideas = [], isLoading } = useQuery({
+  const { data: ideas = [], isLoading, isError } = useQuery({
     queryKey: ['ideas'],
     queryFn: getIdeas,
   });
 
   if (isLoading) {
     return <div className="container mx-auto p-4">Loading ideas...</div>;
+  }
+
+  if (isError) {
+    return <div className="container mx-auto p-4">Error loading ideas</div>;
   }
 
   return (
@@ -47,6 +51,11 @@ export const Discovery = () => {
               </CardContent>
             </Card>
           </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+};
         ))}
       </div>
     </div>
