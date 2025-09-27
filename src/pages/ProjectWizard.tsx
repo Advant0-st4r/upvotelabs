@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Zap } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { toast } from '@/components/ui/use-toast';
 
 export const ProjectWizard = () => {
   const [step, setStep] = useState(1);
@@ -12,14 +13,41 @@ export const ProjectWizard = () => {
   const handleNext = () => setStep(step + 1);
   const handlePrev = () => setStep(step - 1);
   const handleSubmit = async () => {
-    // Future: supabase.from('ideas').insert(idea)
-    alert('Idea generated! (Mock submission)');
+    toast({
+      title: 'Idea Generated',
+      description: `Title: ${idea.title}`,
+    });
   };
 
   const steps = [
-    { title: 'Describe Your Idea', content: <Input placeholder="Idea title" value={idea.title} onChange={(e) => setIdea({ ...idea, title: e.target.value })} /> },
-    { title: 'Add Details', content: <Input placeholder="Description" value={idea.description} onChange={(e) => setIdea({ ...idea, description: e.target.value })} /> },
-    { title: 'Generate', content: <Button onClick={handleSubmit}><Zap className="h-4 w-4 mr-2" /> Generate Project</Button> },
+    {
+      title: 'Describe Your Idea',
+      content: (
+        <Input
+          placeholder="Idea title"
+          value={idea.title}
+          onChange={(e) => setIdea({ ...idea, title: e.target.value })}
+        />
+      ),
+    },
+    {
+      title: 'Add Details',
+      content: (
+        <Input
+          placeholder="Description"
+          value={idea.description}
+          onChange={(e) => setIdea({ ...idea, description: e.target.value })}
+        />
+      ),
+    },
+    {
+      title: 'Generate',
+      content: (
+        <Button onClick={handleSubmit}>
+          <Zap className="h-4 w-4 mr-2" /> Generate Project
+        </Button>
+      ),
+    },
   ];
 
   return (
