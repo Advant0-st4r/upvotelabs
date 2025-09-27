@@ -4,17 +4,21 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Upvote, Share } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { getIdeaById } from '@/lib/mockData'; // Mock; replace with supabase.from('ideas').select('*').eq('id', id)
+import { getIdeaById } from '@/lib/mockData';
 
 export const IdeaDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: idea, isLoading } = useQuery({
+  const { data: idea, isLoading, isError } = useQuery({
     queryKey: ['idea', id],
     queryFn: () => getIdeaById(Number(id)),
   });
 
-  if (isLoading || !idea) {
+  if (isLoading) {
     return <div className="container mx-auto p-4">Loading idea...</div>;
+  }
+
+  if (isError || !idea) {
+    return <div className="container mx-auto p-4">Error loading idea</div>;
   }
 
   return (
@@ -38,7 +42,6 @@ export const IdeaDetail = () => {
               <Share className="h-4 w-4 mr-2" /> Share
             </Button>
           </div>
-          {/* Future: Add comments section via Supabase */}
         </CardContent>
       </Card>
     </motion.div>
