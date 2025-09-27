@@ -4,7 +4,7 @@ Quick Start
 
 Clone: git clone https://github.com/Advant0-st4r/upvotelabs
 Install: npm install
-Env: Add .env with Clerk/Supabase keys (see .env.example)
+Env: Copy .env.example to .env and add Clerk/Supabase keys
 Dev: npm run dev
 Build: npm run build
 
@@ -17,6 +17,11 @@ src/lib/: Utils, mocks, Supabase client
 APIs
 
 Auth: Clerk (client-side)
-Data: Supabase (mocks for now; replace in mockData.ts)
+Data: Supabase (mocks in mockData.ts; replace with real queries)
+
+Troubleshooting
+
+Blank page: Check console (F12) for errors; ensure VITE_CLERK_PUBLISHABLE_KEY in .env.
+Missing components: Verify src/components/ui/ has all shadcn-ui files.
 
 Hosted on Supabase.
