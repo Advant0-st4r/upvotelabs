@@ -2,16 +2,20 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { getForumPosts } from '@/lib/mockData'; // Mock; replace with supabase.from('posts').select()
+import { getForumPosts } from '@/lib/mockData';
 
 export const Forum = () => {
-  const { data: posts = [], isLoading } = useQuery({
+  const { data: posts = [], isLoading, isError } = useQuery({
     queryKey: ['forumPosts'],
     queryFn: getForumPosts,
   });
 
   if (isLoading) {
     return <div className="container mx-auto p-4">Loading forum...</div>;
+  }
+
+  if (isError) {
+    return <div className="container mx-auto p-4">Error loading forum</div>;
   }
 
   return (
