@@ -14,11 +14,7 @@ import { ProtectedRoute } from "./components/auth/ProtectedRoute";
 import { useUser } from '@clerk/clerk-react';
 
 const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 5 * 60 * 1000,
-    },
-  },
+  defaultOptions: { queries: { staleTime: 5 * 60 * 1000 } },
 });
 
 const ProtectedLayout = () => {
